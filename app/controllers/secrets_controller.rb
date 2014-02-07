@@ -7,11 +7,13 @@ class SecretsController < ApplicationController
   def create
     @secret = Secret.new(params[:secret])
     @secret.author_id = current_user.id
+    @user = @secret.author
+    @secret.save!
 
-    if @secret.save
-      redirect_to user_url(@secret.recipient_id)
+
+    if request.xhr?
+      render partial: "secrets/secret.html", locals: {secret: @secret}
     else
-      flash[:error] = @secret.errors.full_messages
       render :new
     end
   end
