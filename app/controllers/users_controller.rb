@@ -27,5 +27,6 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    # @ids = current_user.friend_ids
   end
 end

@@ -1,22 +1,17 @@
 <% unless current_user.id == user.id %>
   <%= link_to user.username, user_url(user) %>
+  <span class="friend_buttons <%= 'can_unfriend' if current_user.friend_ids.include?(user.id) %>">
+    <button data-in_friend_id="<%= user.id %>" class="friend">
+      Add Friend
+    </button>
 
-  <script type="applicatoin/javascript">
+    <button data-in_friend_id="<%= user.id %>" class="unfriend">
+      Unfriend
+    </button>
 
-
-  </script>
-
-  <% unless Friendship.can_friend?(current_user.id, user.id) %>
-    <form action="<%= friendships_url %>" method="post">
-      <input type="hidden"
-              name="authenticity_token"
-              value="<%= form_authenticity_token %>">
-
-      <input type="hidden"
-              name="friendship[in_friend_id]"
-              value="<%= user.id %>">
-
-      <input type="submit" value="Add Friend">
-    </form>
-  <% end %> <br>
+  </span>
+  <br>
 <% end %>
+
+
+

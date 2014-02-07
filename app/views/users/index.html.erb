@@ -1,3 +1,48 @@
 <h1>Select Your Friends!</h1>
+<%= render partial: "users/user", collection:  @users  %>
 
-<%= render @users %>
+<script type="application/javascript">
+  $(document).ready(function() {
+    $(".friend").on("click", function(event) {
+
+      var $button = $(this);
+      var $parent = $button.closest(".friend_buttons");
+
+      var id = $button.data('in_friend_id');
+      var friendship = {"friendship": {"in_friend_id": id}};
+
+      $.ajax({
+        url: "/friendships.json",
+        type: "post",
+        data: friendship,
+        success: function(resp) {
+          var fname = resp['username'];
+          console.log(fname)
+
+          $parent.toggleClass("can_unfriend");
+        }
+      });
+    });
+
+    $(".unfriend").on("click", function(event) {
+
+      var $button = $(this);
+      var $parent = $button.closest(".friend_buttons");
+      var id = $button.data('in_friend_id');
+      var friendship = { "in_friend_id": id, "out_friend_id": <%= current_user.id %>};
+
+
+      $.ajax({
+        url: "/friendship.json",
+        type: "delete",
+        data: friendship,
+        success: function(resp) {
+          console.log(resp)
+          $parent.toggleClass("can_unfriend");
+        }
+      });
+    });
+  });
+
+</script>
+

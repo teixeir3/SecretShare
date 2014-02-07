@@ -5,7 +5,8 @@ SecretShareAjax::Application.routes.draw do
     end
   end
 
-  resources :friendships, only: [:create, :destroy]
+  resources :friendships, only: [:create]
+  resource :friendship, only: [:destroy]
 
   resources :secrets, except: :new
   resource :session, :only => [:create, :destroy, :new]
