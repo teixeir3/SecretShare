@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :integer          not null, primary key
+#  username        :string(255)      not null
+#  password_digest :string(255)      not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  session_token   :string(255)      not null
+#
+
 class User < ActiveRecord::Base
   attr_accessible :username, :password
   attr_reader :password
@@ -14,12 +26,38 @@ class User < ActiveRecord::Base
     :foreign_key => :recipient_id
   )
 
+  has_many(
+    :out_friendships,
+    class_name: "Friendship",
+    foreign_key: :out_friend_id,
+    primary_key: :id
+  )
+
+  has_many(
+    :in_friendships,
+    class_name: "Friendship",
+    foreign_key: :in_friend_id,
+    primary_key: :id
+  )
+
+  has_many :out_friends, through: :out_friendships, source: :in_friend
+  has_many :in_friends, through: :in_friendships, source: :out_friend
+
+
   validates :password_digest, :presence => { :message => "Password can't be blank" }
   validates :password, :length => { :minimum => 6, :allow_nil => true }
   validates :session_token, :presence => true
   validates :username, :presence => true
 
   after_initialize :ensure_session_token
+
+  def friends
+    self.out_friends + self.in_friends
+  end
+
+  def friend_ids
+    self.out_friend_ids + self.in_friend_ids
+  end
 
   def self.find_by_credentials(username, password)
     user = User.find_by_username(username)

@@ -10,8 +10,14 @@ end
 
 group :development do
   gem 'pry-rails'
+  gem 'annotate'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 gem 'bcrypt-ruby', :require => 'bcrypt'
 gem 'jquery-rails'
 gem 'pg'
+
+
+
