@@ -23,11 +23,16 @@ class SecretsController < ApplicationController
         )
       end
 
-      if ([@secret] + @secret_tags).all? { |obj| obj.valid? }
-        redirect_to user_url(@secret.recipient_id)
+      if request.xhr?
+        render partial: "secrets/secret.html", locals: {secret: @secret}
       else
         render :new
       end
+      # if ([@secret] + @secret_tags).all? { |obj| obj.valid? }
+ #        redirect_to user_url(@secret.recipient_id)
+ #      else
+ #        render :new
+ #      end
     end
   end
 end
@@ -39,8 +44,4 @@ end
 #     # @secret.tag_ids = params[:tags]
 #
 #
-#     if request.xhr?
-#       render partial: "secrets/secret.html", locals: {secret: @secret}
-#     else
-#       render :new
-#     end
+

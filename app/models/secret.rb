@@ -25,5 +25,5 @@ class Secret < ActiveRecord::Base
     foreign_key: :secret_id,
     primary_key: :id
   )
-  has_many :tags, through: :secret_taggings, source: :secrets
+  has_many :tags, through: :secret_taggings, source: :tag
 end

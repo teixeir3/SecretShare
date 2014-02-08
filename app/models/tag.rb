@@ -20,5 +20,5 @@ class Tag < ActiveRecord::Base
     primary_key: :id
   )
 
-  has_many :secrets, through: :secret_taggings, source: :tags
+  has_many :secrets, through: :secret_taggings, source: :secret
 end
