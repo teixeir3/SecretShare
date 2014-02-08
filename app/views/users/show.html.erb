@@ -6,7 +6,6 @@
   <script>
     $(document).ready(function() {
       $(".secret_form").on("submit", function(event) {
-        console.log(this);
         event.preventDefault();
 
         var $form = $(this);
@@ -19,7 +18,6 @@
           dataType: "html",
           data: formData,
           success: function(resp) {
-            // console.log(resp)
             $form[0].reset();
             $(".user_secrets").append(resp);
           },
